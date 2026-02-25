@@ -43,6 +43,9 @@
     brightnessctl
     playerctl
     keepassxc
+    grim
+    satty
+    slurp
     #openssh
     #swaylock
     #TODO: check if this is installed on the system

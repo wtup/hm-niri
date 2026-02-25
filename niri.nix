@@ -130,9 +130,12 @@
       "Mod+Shift+Equal" = aw "set-window-height" "+10%";
       "Mod+W" = a "toggle-column-tabbed-display";
 
-      "Mod+Ctrl+Y" = a "screenshot";
-      "Mod+Shift+Y" = a "screenshot-screen";
-      "Mod+Alt+Y" = a "screenshot-window";
+      #"Mod+Ctrl+Y" = a "screenshot";
+      #"Mod+Shift+Y" = a "screenshot-screen";
+      #"Mod+Alt+Y" = a "screenshot-window";
+
+      "Mod+Ctrl+Y" = { action."spawn-sh" = ''grim -g "$(slurp -o -r -c '#ff0000ff')" -t png - | satty --filename - --fullscreen --copy-command=wl-copy --actions-on-escape="save-to-clipboard,exit" --output-filename "$HOME/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H%M%S').png"''; };
+      "Mod+Shift+Y" = { action."spawn-sh" = ''grim -g "$(slurp -d -c '#ff0000ff')" -t png - | satty --filename - --fullscreen --copy-command=wl-copy --actions-on-escape="save-to-clipboard,exit" --output-filename "$HOME/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H%M%S').png"''; };
 
       "XF86AudioRaiseVolume" = { action."spawn-sh" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; allow-when-locked = true; };
       "XF86AudioLowerVolume" = { action."spawn-sh" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; allow-when-locked = true; };
