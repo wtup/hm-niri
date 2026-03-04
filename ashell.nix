@@ -60,12 +60,15 @@
   };
 
   # Mako
-  xdg.configFile."mako/config".text = ''
-  default-timeout = 5000
+  xdg.configFile."mako/config".text = let
+    colors = config.lib.stylix.colors;
+  in ''
+    default-timeout=5000
 
-  text-color=#cad3f5
-  background-color=#24273a
-  border-radius=10
+    text-color=#${colors.base05}
+    background-color=#${colors.base00}
+    border-color=#${colors.base0D}
+    border-radius=10
   '';
 
   systemd.user.services.mako = {

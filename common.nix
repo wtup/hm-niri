@@ -1,4 +1,4 @@
-{config, pkgs, ... }:
+{config, pkgs, lib, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -24,11 +24,12 @@
   # release notes.
   home.stateVersion = "25.11"; # Please read the comment before changing.
 
+  # GTK theming is managed by Stylix
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
     waybar
-    fuzzel
     mako
     zellij
     lazygit
@@ -46,6 +47,7 @@
     grim
     satty
     slurp
+    wezterm
     #openssh
     #swaylock
     #TODO: check if this is installed on the system
@@ -92,59 +94,48 @@
     # '';
   };
 
-  # stylix = {
-  #   enable = true;
-  #   # Predogled in imena barv: https://dt.iki.fi/base16-previews
-  #   base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-  #   image = ./walls/spiderverse.png;
-  #   polarity = "dark";
-  #
-  #   icons = {
-  #     enable = true;
-  #     light = "breeze";
-  #     dark = "breeze-dark";
-  #   };
-  #
-  #   fonts = {
-  #     serif = {
-  #       package = pkgs.dejavu_fonts;
-  #       name = "DejaVu Serif";
-  #     };
-  #
-  #     sansSerif = {
-  #       package = pkgs.dejavu_fonts;
-  #       name = "DejaVu Sans";
-  #     };
-  #
-  #     monospace = {
-  #       package = pkgs.nerd-fonts.hack;
-  #       name = "FiraCode Nerd Font";
-  #     };
-  #
-  #     emoji = {
-  #       package = pkgs.noto-fonts-color-emoji;
-  #       name = "Noto Color Emoji";
-  #     };
-  #   };
-  #
-  #   targets.qt.enable = true;
-  #   targets.kde.enable = true;
-  #   targets.kde.useWallpaper = false;
-  #   targets.fzf.enable = false;
-  #   targets.emacs.enable = false;
-  # };
-  #   ● The files listed in the error output:
-  #
-  #   - ~/.Xresources — X11 resource settings
-  #   - ~/.gtkrc-2.0 — GTK2 theme config
-  #   - ~/.config/gtk-4.0/gtk.css — GTK4 custom CSS
-  #   - ~/.config/gtk-4.0/settings.ini — GTK4 settings
-  #   - ~/.config/gtk-3.0/gtk.css — GTK3 custom CSS
-  #   - ~/.config/gtk-3.0/settings.ini — GTK3 settings
-  #   - ~/.config/forge/stylesheet/forge/stylesheet.css — GNOME Forge extension stylesheet
-  #
-  #   These are all theming-related files that Stylix now wants to manage. Your
-  #   existing copies will be renamed to <filename>.backup.
+  stylix = {
+    enable = true;
+    # Predogled in imena barv: https://dt.iki.fi/base16-previews
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+    image = ./walls/spiderverse.png;
+    polarity = "dark";
+
+    icons = {
+      enable = true;
+      light = "breeze";
+      dark = "breeze-dark";
+    };
+
+    fonts = {
+      serif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Serif";
+      };
+
+      sansSerif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Sans";
+      };
+
+      monospace = {
+        package = pkgs.nerd-fonts.hack;
+        name = "FiraCode Nerd Font";
+      };
+
+      emoji = {
+        package = pkgs.noto-fonts-color-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
+
+    targets.qt.enable = true;
+    targets.kde.enable = true;
+    targets.firefox.enable = true;
+    targets.kde.useWallpaper = false;
+    targets.fzf.enable = false;
+    targets.emacs.enable = false;
+  };
 
 
   # Home Manager can also manage your environment variables through
@@ -176,13 +167,11 @@
     SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/gcr/ssh";
   };
 
-  # gtk = {
-  #   enable = true;
-  #   iconTheme = {
-  #     name = "Adwaita";
-  #     package = pkgs.adwaita-icon-theme;
-  #   };
-  # };
+  programs.fuzzel = {
+    enable = true;
+    settings.main.font = lib.mkForce "monospace:size=14";
+  };
+  programs.alacritty.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

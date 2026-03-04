@@ -39,6 +39,7 @@
           extraSpecialArgs = { inherit ashell; };
           modules = [
             niri.homeModules.niri
+            niri.homeModules.stylix
             stylix.homeModules.stylix
             ./niri-ashell.nix
           ];
@@ -47,6 +48,7 @@
           inherit pkgs;
           modules = [
             niri.homeModules.niri
+            niri.homeModules.stylix
             dms.homeModules.dank-material-shell
             dms.homeModules.niri
             stylix.homeModules.stylix
