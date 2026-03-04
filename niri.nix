@@ -1,12 +1,11 @@
 {config, pkgs, ... }:
 {
-  home.packages = [
-    pkgs.fuzzel
-    # FIXME: Currently, niri doesnt work with this from unstable
-    # but building it from source is ok !?!?
-    # git log --oneline: bc47ef5 (HEAD -> main, origin/main, origin/HEAD) deps: bump `xcb` to 1.7.0
-    # pkgs.xwayland-satellite
-  ];
+  # home.packages = [
+  #   # FIXME: Currently, niri doesnt work with this from unstable
+  #   # but building it from source is ok !?!?
+  #   # git log --oneline: bc47ef5 (HEAD -> main, origin/main, origin/HEAD) deps: bump `xcb` to 1.7.0
+  #   pkgs.xwayland-satellite
+  # ];
 
   programs.niri = {
     enable = true;
