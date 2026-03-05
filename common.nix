@@ -1,4 +1,4 @@
-{config, pkgs, lib, ... }:
+{config, pkgs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -30,6 +30,7 @@
   # environment.
   home.packages = with pkgs; [
     waybar
+    #fuzzel  # managed by programs.fuzzel
     mako
     zellij
     lazygit
@@ -97,14 +98,14 @@
   stylix = {
     enable = true;
     # Predogled in imena barv: https://dt.iki.fi/base16-previews
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     image = ./walls/spiderverse.png;
     polarity = "dark";
 
     icons = {
       enable = true;
-      light = "breeze";
-      dark = "breeze-dark";
+      light = "Adwaita";
+      dark = "Adwaita";
     };
 
     fonts = {
@@ -131,7 +132,6 @@
 
     targets.qt.enable = true;
     targets.kde.enable = true;
-    targets.firefox.enable = true;
     targets.kde.useWallpaper = false;
     targets.fzf.enable = false;
     targets.emacs.enable = false;
@@ -167,11 +167,8 @@
     SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/gcr/ssh";
   };
 
-  programs.fuzzel = {
-    enable = true;
-    settings.main.font = lib.mkForce "monospace:size=14";
-  };
-  programs.alacritty.enable = true;
+
+  programs.fuzzel.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
