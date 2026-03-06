@@ -1,4 +1,4 @@
-{config, pkgs, ... }:
+{config, pkgs, lib, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -32,14 +32,14 @@
     waybar
     #fuzzel  # managed by programs.fuzzel
     mako
-    zellij
+    #zellij  # managed by programs.zellij
     lazygit
     neovim
     nodejs_24
     pdfgrep
     uv
     vale-ls
-    yazi
+    #yazi  # managed by programs.yazi
     yt-dlp
     wl-clipboard
     brightnessctl
@@ -133,10 +133,26 @@
     targets.qt.enable = true;
     targets.kde.enable = true;
     targets.kde.useWallpaper = false;
+    #targets.firefox.enable = true;
+    targets.alacritty.enable = true;
     targets.fzf.enable = false;
     targets.emacs.enable = false;
+    targets.zellij.enable = true;
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings.terminal.shell = "${pkgs.fish}/bin/fish";
+  };
+
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      isDefault = true;
+    };
+  };
+
+  stylix.targets.firefox.profileNames = [ "default" ];
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -168,7 +184,63 @@
   };
 
 
-  programs.fuzzel.enable = true;
+  programs.zellij = {
+    enable = true;
+    settings = {
+      default_shell = "${pkgs.fish}/bin/fish";
+      default_mode = "locked";
+    };
+  };
+
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      alias mount_rpi="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:RPI ~/projects/RPI/sharepoint"
+      alias mount_skif="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:SKIF ~/projects/SKIF/sharepoint"
+      alias mount_slri="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:SLRI ~/projects/SLRI/sharepoint"
+      alias mount_sp="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:$1 ~/projects/$1/sharepoint"
+      alias record_audio="ffmpeg -f pulse -i default -f pulse -i default.monitor -filter_complex amix=inputs=2 $argv"
+      fish_add_path "$HOME/.local/bin"
+      fish_add_path "$HOME/.local/share/nvm/v24.4.0/bin/"
+
+      source "$HOME/.cargo/env.fish"
+      set fish_greeting
+      direnv hook fish | source
+      set GIT_EDITOR nvim
+
+      fish_add_path "~/.nix-profile/bin"
+      if test -d "$HOME/.nix-profile/share"
+          set -x XDG_DATA_DIRS "$HOME/.nix-profile/share" $XDG_DATA_DIRS
+      end
+    '';
+    functions = {
+      y = ''
+        set tmp (mktemp -t "yazi-cwd.XXXXXX")
+        yazi $argv --cwd-file="$tmp"
+        if read -z cwd <"$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+            builtin cd -- "$cwd"
+        end
+        rm -f -- "$tmp"
+      '';
+    };
+  };
+
+  programs.starship.enable = true;
+
+  programs.yazi = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  programs.fuzzel = {
+    enable = true;
+    settings.main.font = lib.mkForce "monospace:size=16";
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
