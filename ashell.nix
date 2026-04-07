@@ -153,6 +153,10 @@
   [window_title]
   truncate_title_after_length = 100
 
+  [keyboard_layout.labels]
+  "English (US)" = "🇺🇸"
+  "Slovenian" = "🇸🇮"
+
   [settings]
   lock_cmd = "playerctl --all-players pause; swaylock"
   audio_sinks_more_cmd = "pavucontrol -t 3"

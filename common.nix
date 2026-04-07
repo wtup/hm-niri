@@ -49,6 +49,7 @@
     satty
     slurp
     wezterm
+    pandoc
     #openssh
     #swaylock
     #TODO: check if this is installed on the system
@@ -131,13 +132,14 @@
     };
 
     targets.qt.enable = true;
-    targets.kde.enable = true;
+    #targets.kde.enable = false;
+    #targets.gnome.enable = true;
     targets.kde.useWallpaper = false;
     #targets.firefox.enable = true;
     targets.alacritty.enable = true;
     targets.fzf.enable = false;
     targets.emacs.enable = false;
-    targets.zellij.enable = true;
+    targets.zellij.enable = false;
   };
 
   programs.alacritty = {
@@ -183,47 +185,6 @@
     SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/gcr/ssh";
   };
 
-
-  programs.zellij = {
-    enable = true;
-    settings = {
-      default_shell = "${pkgs.fish}/bin/fish";
-      default_mode = "locked";
-    };
-  };
-
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      alias mount_rpi="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:RPI ~/projects/RPI/sharepoint"
-      alias mount_skif="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:SKIF ~/projects/SKIF/sharepoint"
-      alias mount_slri="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:SLRI ~/projects/SLRI/sharepoint"
-      alias mount_sp="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:$1 ~/projects/$1/sharepoint"
-      alias record_audio="ffmpeg -f pulse -i default -f pulse -i default.monitor -filter_complex amix=inputs=2 $argv"
-      fish_add_path "$HOME/.local/bin"
-      fish_add_path "$HOME/.local/share/nvm/v24.4.0/bin/"
-
-      source "$HOME/.cargo/env.fish"
-      set fish_greeting
-      direnv hook fish | source
-      set GIT_EDITOR nvim
-
-      fish_add_path "~/.nix-profile/bin"
-      if test -d "$HOME/.nix-profile/share"
-          set -x XDG_DATA_DIRS "$HOME/.nix-profile/share" $XDG_DATA_DIRS
-      end
-    '';
-    functions = {
-      y = ''
-        set tmp (mktemp -t "yazi-cwd.XXXXXX")
-        yazi $argv --cwd-file="$tmp"
-        if read -z cwd <"$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-            builtin cd -- "$cwd"
-        end
-        rm -f -- "$tmp"
-      '';
-    };
-  };
 
   programs.starship.enable = true;
 
