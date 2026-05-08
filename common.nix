@@ -50,6 +50,7 @@
     slurp
     wezterm
     pandoc
+    ripdrag
     #openssh
     #swaylock
     #TODO: check if this is installed on the system

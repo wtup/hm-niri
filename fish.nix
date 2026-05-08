@@ -32,16 +32,21 @@
         rm -f -- "$tmp"
       '';
       # task add project:$1 $2
-      tap = ''
-        task add project:$argv[1] $argv[2]
+      ta = ''
+        task add $argv
       '';
-      # task add project:$1 $2
       tt = ''
         task +today
       '';
-      # task add project:$1 $2
       tn = ''
         task +next
+      '';
+      # task print project
+      tp = ''
+        task project:$argv
+      '';
+      t= ''
+        task $argv
       '';
     };
   };
