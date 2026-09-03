@@ -28,6 +28,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
+  nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     waybar
     #fuzzel  # managed by programs.fuzzel
@@ -51,6 +52,14 @@
     wezterm
     pandoc
     ripdrag
+    speedcrunch
+    joplin-desktop
+    bat
+    # rofi-rbw needs this install over apt, wtype wclipboard, wl-copy
+    # wtype
+    # ydotool needs to be installed over apt for root access
+    # needs rbw to work!
+    rofi-rbw
     #openssh
     #swaylock
     #TODO: check if this is installed on the system
@@ -112,13 +121,13 @@
 
     fonts = {
       serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
+        package = pkgs.cantarell-fonts;
+        name = "Cantarell";
       };
 
       sansSerif = {
         package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
+        name = "Cantarell";
       };
 
       monospace = {
@@ -130,11 +139,14 @@
         package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
+      sizes.applications = 11;
+      sizes.terminal = 11;
     };
 
     targets.qt.enable = true;
-    #targets.kde.enable = false;
-    #targets.gnome.enable = true;
+    targets.kde.enable = false;
+    targets.gtk.enable = true;
+    targets.gnome.enable = false;
     targets.kde.useWallpaper = false;
     #targets.firefox.enable = true;
     targets.alacritty.enable = true;
@@ -150,9 +162,28 @@
 
   programs.firefox = {
     enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     profiles.default = {
       isDefault = true;
     };
+  };
+
+  programs.rbw = {
+    enable = true;
+    settings = {
+      email = "luka.wtup@gmail.com";
+      lock_timeout = 3600;
+      base_url = "https://warden.perusko.si";
+      # This sets which program is used to promtp for password. Since we're
+      # currently on Ubuntu, it can be commented out, but if on NixOS, it needs
+      # to be set.
+      #pinentry = pkgs.pinentry-curses;
+    };
+  };
+
+  home.file.".local/bin" = {
+    source = ./scripts;
+    recursive = true;
   };
 
   stylix.targets.firefox.profileNames = [ "default" ];

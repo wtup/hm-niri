@@ -6,7 +6,7 @@
       alias mount_rpi="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:RPI ~/projects/RPI/sharepoint"
       alias mount_skif="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:SKIF ~/projects/SKIF/sharepoint"
       alias mount_slri="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:SLRI ~/projects/SLRI/sharepoint"
-      alias mount_tarla="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:TARLA ~/projects/$1/sharepoint"
+      alias mount_tarla="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:TARLA ~/projects/TARLA/sharepoint"
       alias mount_sp="rclone --ignore-size --ignore-checksum --vfs-cache-mode full mount --daemon CSL-PD:$1 ~/projects/$1/sharepoint"
       alias record_audio="ffmpeg -f pulse -i default -f pulse -i default.monitor -filter_complex amix=inputs=2 $argv"
       fish_add_path "$HOME/.local/bin"

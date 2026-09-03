@@ -17,6 +17,19 @@
     settings.layout = {
       focus-ring.width = 4;
     };
+    settings.cursor = {
+      theme = "Adwaita";
+      size = 24;
+      hide-when-typing = true;
+      hide-after-inactive-ms =  1000;
+    };
+    settings.input.keyboard = {
+      track-layout = "global"; # or "window"
+      xkb = {
+        layout = "us,si";
+      };
+    };
+
     settings.switch-events.lid-close = { action.spawn = ["swaylock"];};
     settings.binds = let
       a = name: { action.${name} = []; };
@@ -25,7 +38,10 @@
       #"Mod+D" = { action.spawn = ["fuzzel"]; hotkey-overlay.title = "Run an Application"; };
 
       "Mod+Shift+Slash" = a "show-hotkey-overlay";
+      "Mod+Shift+P" = aw "switch-layout" "next";
       "Mod+T" = { action.spawn = ["alacritty"]; hotkey-overlay.title = "Open a Terminal"; };
+      "Mod+B" = { action.spawn = ["rofi-rbw" "--selector" "fuzzel" "--typer" "wtype" "--clipboarder" "wl-copy" "--target" "password"]; hotkey-overlay.title = "rbw target password"; };
+      "Mod+Shift+B" = { action.spawn = ["rofi-rbw" "--selector" "fuzzel" "--typer" "wtype" "--clipboarder" "wl-copy" "--target" "clipboard"]; hotkey-overlay.title = "rbw target clipboard"; };
       "Mod+Q" = a "close-window";
       "Mod+O" = (a "toggle-overview") // { repeat = false; };
 
